@@ -1,0 +1,1 @@
+vaccumPermittivity = 8.85418782 * pow(10,-12)
