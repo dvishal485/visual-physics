@@ -2,6 +2,8 @@ from Electrostatics import electricField as Ef
 from Electrostatics import electricPotential as Ep
 import matplotlib.pyplot as plt
 from numpy import arange as np
+from Electrostatics import dipole
+from tools import vectorMagnitude
 
 
 def Electrostatics():
@@ -22,6 +24,12 @@ def Electrostatics():
     [8] Electric Potential due to Uniformly charged Non-conducting sphere
     [9] Electric Field due to Conducting sphere
     [10] Electric Potential due to Conducting sphere
+    [11] Electric Potential due to Electric Dipole at General Point
+    [12] Electric Feild due to Electric Dipole at General Point
+    [13] Electric Potential due to Electric Dipole at Equitorial Point
+    [14] Electric Feild due to Electric Dipole at Equitorial Point
+    [15] Electric Potential due to Electric Dipole at Axial Point
+    [16] Electric Feild due to Electric Dipole at Axial Point
 
     # - Not implemeted yet
 ''')
@@ -31,7 +39,7 @@ def Electrostatics():
         charge = float(input('Charge q present on the body (in Coloumb) : '))
         distance = float(input(
             'Distance of point at which electric field is required from the charge (in Meter) : '))
-        print('Result :')
+        print('Result : ')
         print('Electric Field : ' +
               str('{:.2e}'.format(Ef.dueToPointCharge(charge, distance)))+' Newton/Columb')
 
@@ -52,7 +60,7 @@ def Electrostatics():
         charge = float(input('Charge q present on the body (in Coloumb) : '))
         distance = float(input(
             'Distance of point at which electric potential is required from the charge (in Meter) : '))
-        print('Result :')
+        print('Result : ')
         print('Electric Potential : ' +
               str('{:.2e}'.format(Ep.dueToPointCharge(charge, distance)))+' Joule/Columb')
 
@@ -78,12 +86,12 @@ def Electrostatics():
             'Angle subtented by body on point lying above perpendicular (in Radians) : '))
         angle2 = float(input(
             'Angle subtented by body on point lying below perpendicular (in Radians) : '))
-        print('Result :')
+        print('Result : ')
         print('Electric Field : ' +
-              str('{:.2e}'.format(Ef.dueToUniformLineCharge(chargeDensity, angle1, angle2, distance))))
+              str('{:.2e}'.format(Ef.LineCharge.dueToUniformLineCharge(chargeDensity, angle1, angle2, distance))))
 
         def graph(x):
-            return Ef.dueToUniformLineCharge(chargeDensity, angle1, angle2, x)
+            return Ef.LineCharge.dueToUniformLineCharge(chargeDensity, angle1, angle2, x)
         x = np(0 + distance/10000, 1.5*distance, distance/100)
         y = []
         for point in x:
@@ -100,12 +108,12 @@ def Electrostatics():
             input('Linear Charge Density present on the body (in Coloumb/Meter) : '))
         distance = float(input(
             'Perpendicular Distance of point at which electric field is required from the charged body (in Meter) : '))
-        print('Result :')
+        print('Result : ')
         print('Electric Field : ' +
-              str('{:.2e}'.format(Ef.dueToUniformInfiniteLineCharge(chargeDensity, distance))))
+              str('{:.2e}'.format(Ef.LineCharge.dueToUniformInfiniteLineCharge(chargeDensity, distance))))
 
         def graph(x):
-            return Ef.dueToUniformInfiniteLineCharge(chargeDensity, x)
+            return Ef.LineCharge.dueToUniformInfiniteLineCharge(chargeDensity, x)
         x = np(0 + distance/10000, 1.5*distance, distance/100)
         y = []
         for point in x:
@@ -123,12 +131,12 @@ def Electrostatics():
         radius = float(input('Radius of charged sphere (in Meter) : '))
         distance = float(input(
             'Distance of point from sphere\'s center (in Meter): '))
-        print('Result :')
+        print('Result : ')
         print('Electric Field : ' +
-              str('{:.2e}'.format(Ef.dueToUniformNonConductingSphere(chargeDensity, radius, distance))))
+              str('{:.2e}'.format(Ef.Sphere.dueToUniformNonConductingSphere(chargeDensity, radius, distance))))
 
         def graph(x):
-            return Ef.dueToUniformNonConductingSphere(chargeDensity, radius, x)
+            return Ef.Sphere.dueToUniformNonConductingSphere(chargeDensity, radius, x)
         x = np(0, 1.5*distance, distance/100)
         y = []
         for point in x:
@@ -146,12 +154,12 @@ def Electrostatics():
         radius = float(input('Radius of charged sphere (in Meter) : '))
         distance = float(input(
             'Distance of point from sphere\'s center (in Meter): '))
-        print('Result :')
+        print('Result : ')
         print('Electric Potential : ' +
-              str('{:.2e}'.format(Ep.dueToUniformNonConductingSphere(chargeDensity, radius, distance))))
+              str('{:.2e}'.format(Ep.Sphere.dueToUniformNonConductingSphere(chargeDensity, radius, distance))))
 
         def graph(x):
-            return Ep.dueToUniformNonConductingSphere(chargeDensity, radius, x)
+            return Ep.Sphere.dueToUniformNonConductingSphere(chargeDensity, radius, x)
         x = np(0, 1.5*distance, distance/100)
         y = []
         for point in x:
@@ -170,20 +178,20 @@ def Electrostatics():
         radius = float(input('Radius of charged sphere (in Meter) : '))
         distance = float(input(
             'Distance of point from sphere\'s center (in Meter): '))
-        print('Result :')
+        print('Result : ')
         print('Electric Field : ' +
-              str('{:.2e}'.format(Ef.dueToConductingSphere(chargeDensity, radius, distance))))
+              str('{:.2e}'.format(Ef.Sphere.dueToConductingSphere(chargeDensity, radius, distance))))
 
         def graph(x):
-            return Ef.dueToConductingSphere(chargeDensity, radius, x)
+            return Ef.Sphere.dueToConductingSphere(chargeDensity, radius, x)
         x = np(0, 1.5*distance, distance/100)
         y = []
         for point in x:
             y.append(graph(point))
         plt.plot(x, y)
-        plt.xlabel('Distance from sphere\'s center charge (Meter)')
-        plt.ylabel('Electric field strength at the point (Newton/Coloumb)')
-        plt.title('Electric Field due to Conducting sphere')
+        plt.xlabel('Distance from sphere\'s center charge (Meter) : ')
+        plt.ylabel('Electric field strength at the point (Newton/Coloumb) : ')
+        plt.title('Electric Field due to Conducting sphere : ')
         plt.show()
 
     if module == "10":
@@ -193,12 +201,12 @@ def Electrostatics():
         radius = float(input('Radius of charged sphere (in Meter) : '))
         distance = float(input(
             'Distance of point from sphere\'s center (in Meter): '))
-        print('Result :')
+        print('Result : ')
         print('Electric Potential : ' +
-              str('{:.2e}'.format(Ep.dueToConductingSphere(chargeDensity, radius, distance))))
+              str('{:.2e}'.format(Ep.Sphere.dueToConductingSphere(chargeDensity, radius, distance))))
 
         def graph(x):
-            return Ep.dueToConductingSphere(chargeDensity, radius, x)
+            return Ep.Sphere.dueToConductingSphere(chargeDensity, radius, x)
         x = np(0, 1.5*distance, distance/100)
         y = []
         for point in x:
@@ -208,4 +216,134 @@ def Electrostatics():
         plt.ylabel('Electric potential at the point (Newton/Coloumb)')
         plt.title(
             'Electric potential due to Uniformly charged Non-conducting sphere')
+        plt.show()
+
+    if module == "11":
+        print('[11] Electric Potential due to Electric Dipole at General Point')
+        charge = float(input('Magnitude of charge on dipole (Coloumb) : '))
+        dipoleLength = float(input('Dipole length (Meter) : '))
+        print('Enter the coordinates assuming the dipole is located with it\'s dipole moment parallel to x-axis and it\'s center at origin')
+        xCord = float(input('x-coordinate (Meter) : '))
+        yCord = float(input('y-coordinate (Meter) : '))
+        zCord = float(input('z-coordinate (Meter) : '))
+        resultPotential = dipole.GeneralPoint.electricPotential(
+            charge, dipoleLength, [xCord, yCord, zCord])
+        print('Result : ')
+        print('Electric Potential : ' +
+              str('{:.2e}'.format(resultPotential)))
+
+    if module == "12":
+        print('[12] Electric Field due to Electric Dipole at General Point')
+        charge = float(input('Magnitude of charge on dipole (Coloumb) : '))
+        dipoleLength = float(input('Dipole length (Meter) : '))
+        print('Enter the coordinates assuming the dipole is located with it\'s dipole moment parallel to x-axis and it\'s center at origin')
+        xCord = float(input('x-coordinate (Meter) : '))
+        yCord = float(input('y-coordinate (Meter) : '))
+        zCord = float(input('z-coordinate (Meter) : '))
+        resultFeild = dipole.GeneralPoint.electricPotential(
+            charge, dipoleLength, [xCord, yCord, zCord])
+        print('Result : ')
+        print('Electric Feild : ' +
+              str('{:.2e}'.format(resultFeild)))
+
+    if module == "13":
+        print('[13] Electric Potential due to Electric Dipole at Equitorial Point')
+        charge = float(input('Magnitude of charge on dipole (Coloumb) : '))
+        dipoleLength = float(input('Dipole length (Meter) : '))
+        print('Enter the distance assuming the dipole is located with it\'s dipole moment parallel to x-axis and it\'s center at origin')
+        distanceFromCenter = float(
+            input('Distance from center of Dipole (Meter) : '))
+        resultPotential = dipole.EquitorialPoint.electricPotential(
+            charge, dipoleLength, distanceFromCenter)
+        print('Result : ')
+        print('Electric Potential : ' +
+              str('{:.2e}'.format(resultPotential)))
+
+        def graph(x):
+            return dipole.EquitorialPoint.electricPotential(charge, dipoleLength, x)
+        x = np(0, 1.5*distanceFromCenter, distanceFromCenter/100)
+        y = []
+        for point in x:
+            y.append(graph(point))
+        plt.plot(x, y)
+        plt.xlabel('Distance from dipole\'s center (Meter)')
+        plt.ylabel('Electric potential at the point (Newton/Coloumb)')
+        plt.title(
+            'Electric potential due Dipole at Equitorial point')
+        plt.show()
+
+    if module == "14":
+        print('[14] Electric Feild due to Electric Dipole at Equitorial Point')
+        charge = float(input('Magnitude of charge on dipole (Coloumb) : '))
+        dipoleLength = float(input('Dipole length (Meter) : '))
+        print('Enter the distance assuming the dipole is located with it\'s dipole moment parallel to x-axis and it\'s center at origin')
+        distanceFromCenter = float(
+            input('Distance from center of Dipole (Meter) : '))
+        resultFeild = dipole.EquitorialPoint.electricField(
+            charge, dipoleLength, distanceFromCenter)
+        print('Result : ')
+        print('Electric Feild : ' + str(resultFeild))
+
+        def graph(x):
+            return vectorMagnitude(dipole.EquitorialPoint.electricField(charge, dipoleLength, x))
+        x = np(0, 1.5*distanceFromCenter, distanceFromCenter/100)
+        y = []
+        for point in x:
+            y.append(graph(point))
+        plt.plot(x, y)
+        plt.xlabel('Distance from dipole\'s center (Meter)')
+        plt.ylabel('Electric field at the point (Newton/Coloumb)')
+        plt.title(
+            'Electric field due Dipole at Equitorial point')
+        plt.show()
+
+    if module == "15":
+        print('[15] Electric Potential due to Electric Dipole at Axial Point')
+        charge = float(input('Magnitude of charge on dipole (Coloumb) : '))
+        dipoleLength = float(input('Dipole length (Meter) : '))
+        print('Enter the distance assuming the dipole is located with it\'s dipole moment parallel to x-axis and it\'s center at origin')
+        distanceFromCenter = float(
+            input('Distance from center of Dipole (Meter) : '))
+        resultPotential = dipole.AxialPoint.electricPotential(
+            charge, dipoleLength, distanceFromCenter)
+        print('Result : ')
+        print('Electric Potential : ' +
+              str('{:.2e}'.format(resultPotential)))
+
+        def graph(x):
+            return dipole.AxialPoint.electricPotential(charge, dipoleLength, x)
+        x = np(0, 1.5*distanceFromCenter, distanceFromCenter/100)
+        y = []
+        for point in x:
+            y.append(graph(point))
+        plt.plot(x, y)
+        plt.xlabel('Distance from dipole\'s center (Meter)')
+        plt.ylabel('Electric potential at the point (Newton/Coloumb)')
+        plt.title(
+            'Electric potential due Dipole at Axial point')
+        plt.show()
+
+    if module == "16":
+        print('[16] Electric Feild due to Electric Dipole at Axial Point')
+        charge = float(input('Magnitude of charge on dipole (Coloumb) : '))
+        dipoleLength = float(input('Dipole length (Meter) : '))
+        print('Enter the distance assuming the dipole is located with it\'s dipole moment parallel to x-axis and it\'s center at origin')
+        distanceFromCenter = float(
+            input('Distance from center of Dipole (Meter) : '))
+        resultFeild = dipole.AxialPoint.electricField(
+            charge, dipoleLength, distanceFromCenter)
+        print('Result : ')
+        print('Electric Feild : ' + str(resultFeild))
+
+        def graph(x):
+            return vectorMagnitude(dipole.AxialPoint.electricField(charge, dipoleLength, x))
+        x = np(0, 1.5*distanceFromCenter, distanceFromCenter/100)
+        y = []
+        for point in x:
+            y.append(graph(point))
+        plt.plot(x, y)
+        plt.xlabel('Distance from dipole\'s center (Meter)')
+        plt.ylabel('Electric field at the point (Newton/Coloumb)')
+        plt.title(
+            'Electric field due Dipole at Axial point')
         plt.show()
