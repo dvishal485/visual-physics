@@ -30,7 +30,7 @@ class Sphere:
             potentialAtSurface = k * totalEnclosedCharge / radiusOfSphere
 
             def integrand(x):
-                return Ef.dueToNonConductingSphere(
+                return Ef.Sphere.dueToNonConductingSphere(
                     chargeDensityFunction, radiusOfSphere, x)
             excessPotential = integrate.quad(
                 integrand, distanceFromCenter, radiusOfSphere)[0]
@@ -62,7 +62,7 @@ class LineCharge:
         # perpendicular to the charged body in other case
         # or E vector doesn't align with dr vector
         def integrand(x):
-            return Ef.dueToUniformLineCharge(
+            return Ef.LineCharge.dueToUniformLineCharge(
                 linearChargeDensity, angleSubtended, angleSubtended, x)
         referencePotential = 0
         # assuming potential at x=Infinity to be zero (which maybe treated as wrong)
