@@ -14,12 +14,12 @@ def Electrostatics():
 
     [1] Electric Field due to Point Charge
     [2] Electric Potential due to Point Charge
-    [3] Electric Field due to a Finite Line Charge
-    [4] Electric Potential difference between
-        two points due to a Finite Line Charge (#)
+    [3] Electric Field due to a Symmeteric finite Line Charge
+    [4] Electric Potential difference between two
+        points due to a Symmeteric finite Line Charge
     [5] Electric Field due to Infinite Line Charge
     [6] Electric Potential difference between
-        two points due to Infinite Line Charge (#)
+        two points due to Infinite Line Charge
     [7] Electric Field due to Uniformly charged Non-conducting sphere
     [8] Electric Potential due to Uniformly charged Non-conducting sphere
     [9] Electric Field due to Conducting sphere
@@ -77,7 +77,7 @@ def Electrostatics():
         plt.show()
 
     if module == "3":
-        print('[3] Electric Field due to a Finite Line Charge')
+        print('[3] Electric Field due to a Symmeteric finite Line Charge')
         chargeDensity = float(
             input('Linear Charge Density present on the body (in Coloumb/Meter) : '))
         distance = float(input(
@@ -102,6 +102,22 @@ def Electrostatics():
         plt.title('Electric field due to line charge')
         plt.show()
 
+    if module == "4":
+        print(
+            '[4] Electric Potential difference between two points due to a Symmeteric finite Line Charge')
+        chargeDensity = float(
+            input('Linear Charge Density present on the body (in Coloumb/Meter) : '))
+        distance1 = float(input(
+            'Perpendicular Distance of point A (Reference Point) (in Meter) : '))
+        distance2 = float(input(
+            'Perpendicular Distance of point at which electric potential is required (in Meter) : '))
+        angle = float(input(
+            'Half Angle subtented by body (in Radians) : '))
+        result = str('{:.2e}'.format(Ep.LineCharge.dueToSymmetericLineCharge(
+            chargeDensity, angle, distance2) - Ep.LineCharge.dueToSymmetericLineCharge(chargeDensity, angle, distance1)))
+        print('Result : ')
+        print('Required potential difference : ' + result)
+
     if module == "5":
         print('[5] Electric Field due to Infinite Line Charge')
         chargeDensity = float(
@@ -123,6 +139,20 @@ def Electrostatics():
         plt.ylabel('Electric field strength at the point (Newton/Coloumb)')
         plt.title('Electric field due to line charge')
         plt.show()
+
+    if module == "6":
+        print(
+            '[6] Electric Potential difference between two points due to Infinite Line Charge')
+        chargeDensity = float(
+            input('Linear Charge Density present on the body (in Coloumb/Meter) : '))
+        distance1 = float(input(
+            'Perpendicular Distance of point A (Reference Point) (in Meter) : '))
+        distance2 = float(input(
+            'Perpendicular Distance of point at which electric potential is required (in Meter) : '))
+        result = str('{:.2e}'.format(Ep.LineCharge.dueToInfiniteLineCharge(
+            chargeDensity, distance2) - Ep.LineCharge.dueToInfiniteLineCharge(chargeDensity, distance1)))
+        print('Result : ')
+        print('Required potential difference : ' + result)
 
     if module == "7":
         print('[7] Electric Field due to Uniformly charged Non-conducting sphere')

@@ -70,6 +70,9 @@ class LineCharge:
             integrand, perpendicularDistanceFromBody, Infinity)[0]
         return referencePotential + excessPotential
 
+    def dueToInfiniteLineCharge(linearChargeDensity, perpendicularDistanceFromBody):
+        return LineCharge.dueToSymmetericLineCharge(linearChargeDensity, pi/2, perpendicularDistanceFromBody)
+
 
 class Ring:
     def dueToChargedRingOnAxis(chargeOnRing, radiusOfRing, distanceFromCenter):
