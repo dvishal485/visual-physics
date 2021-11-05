@@ -377,3 +377,5 @@ def Electrostatics():
         plt.title(
             'Electric field due Dipole at Axial point')
         plt.show()
+        
+plt.close()
